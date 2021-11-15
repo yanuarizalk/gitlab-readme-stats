@@ -9,9 +9,15 @@
   "author": "David O'Regan",
   "license": "MIT",
   "devDependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.0.2",
+    "prettier": "2.4.1"
   },
   "dependencies": {
     "dotenv": "^8.2.0"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

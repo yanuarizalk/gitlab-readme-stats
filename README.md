@@ -12,6 +12,10 @@ change the `?username=` value to your GitLab's username
 ![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand)
 ```
 
+## GitLab GraphQL Explorer
+
+https://gitlab.com/-/graphql-explorer
+
 ## Demo
 
 ![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand)
