@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c5ef7c0-5281-4fde-a721-4e6ccacdff2c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fetchStats.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/fetchStats.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderStatsCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderStatsCard.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,15 +23,19 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="20p7wrDaq23smJxIALkfqg8JgZ1" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -52,7 +58,8 @@
       <updated>1636729916787</updated>
       <workItem from="1636729918203" duration="7469000" />
       <workItem from="1636977254619" duration="4365000" />
-      <workItem from="1637399917280" duration="1908000" />
+      <workItem from="1637399917280" duration="4040000" />
+      <workItem from="1637421317362" duration="1060000" />
     </task>
     <servers />
   </component>
@@ -70,5 +77,8 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

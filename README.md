@@ -45,7 +45,7 @@ https://gitlab.com/-/graphql-explorer
 
 - Hiding specific stats
 
-![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["todos","authoredMrs"])
+![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["todos","mrs"])
 
 - Showing icons
 
