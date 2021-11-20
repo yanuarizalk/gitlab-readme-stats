@@ -30,27 +30,102 @@ To enable icons you can pass `show_icons=true` in the query param like so
 ![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&show_icons=true)
 ```
 
-Other options:
+## Themes
 
-- `&hide_border=true` hide the border box if you don't like it :D.
-- `&line_height=30` control the line-height between text.
+With inbuilt themes you can customize the look of the card without doing any [manual customization](#customization).
 
-## GitLab GraphQL Explorer
+Use `?theme=THEME_NAME` parameter like so :-
 
-https://gitlab.com/-/graphql-explorer
+```md
+![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&show_icons=true&theme=dark)
+```
+
+### Currently available themes:
+
+- `default`
+- `dark`
+
+### Customization
+
+You can customize the appearance of your `Stats Card` however you like with URL params.
+
+Customization Options:
+
+| Option      | type      | description                          | Stats Card |
+| ----------- | --------- | ------------------------------------ | ---------- |
+| title_color | hex color | title color                          | `41419f`   |
+| text_color  | hex color | body color                           | `1f1f1f`   |
+| icon_color  | hex color | icon color                           | `41419f`   |
+| bg_color    | hex color | card bg color                        | `FFFEFE`   |
+| line_height | number    | control the line-height between text | 30         |
+| hide_rank   | boolean   | hides the ranking                    | false      |
+| hide_title  | boolean   | hides the stats title                | false      |
+| hide_border | boolean   | hides the stats card border          | false      |
+| show_icons  | boolean   | shows icons                          | false      |
+| theme       | string    | sets inbuilt theme                   | 'default'  |
+
+---
 
 ## Demo
+
+- Default
 
 ![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand)
 
 - Hiding specific stats
 
-![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["todos","mrs"])
+![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["mrs","projects"])
 
 - Showing icons
 
-![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["todos"]&show_icons=true)
+![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["projects"]&show_icons=true)
 
-Contributions are welcomed! <3
+- Themes
 
-Made with :heart: and javascript.
+Choose from any of the [default themes](#themes)
+
+![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&show_icons=true&theme=dark)
+
+## GitLab GraphQL Explorer
+
+Use the [GitLab GraphQL Explorer](https://gitlab.com/-/graphql-explorer) to see more options for a `User`. An example query:
+
+```graphql
+{
+  user(username: "oregand") {
+    name
+    authoredMergeRequests {
+      count
+      totalTimeToMerge
+      nodes {
+        commitCount
+      }
+    }
+    assignedMergeRequests {
+      count
+      nodes {
+        commitCount
+      }
+    }
+    projectMemberships {
+      nodes {
+        id
+      }
+    }
+    groupMemberships {
+      nodes {
+        id
+      }
+    }
+    todos {
+      nodes {
+        id
+      }
+    }
+  }
+}
+```
+
+Inspired heavily(almost entirely) by [github-readme-stats](https://github.com/anuraghazra/github-readme-stats/)!
+
+Made with :heart: and JavaScript.

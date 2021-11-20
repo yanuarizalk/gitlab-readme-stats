@@ -113,7 +113,7 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
   // Conditionally rendered elements
   const title = hide_title
     ? ""
-    : `<text x="25" y="35" class="header">${name}'s GitHub Stats</text>`;
+    : `<text x="25" y="35" class="header">${name}'s GitLab Stats</text>`;
 
   const border = hide_border
     ? ""

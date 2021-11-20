@@ -1,15 +1,15 @@
 const themes = {
   default: {
-    title_color: "2f80ed",
-    icon_color: "4c71f2",
-    text_color: "333",
+    title_color: "41419f",
+    icon_color: "41419f",
+    text_color: "1f1f1f",
     bg_color: "FFFEFE",
   },
   dark: {
     title_color: "fff",
-    icon_color: "79ff97",
+    icon_color: "7b58cf",
     text_color: "9f9f9f",
-    bg_color: "151515",
+    bg_color: "1f1f1f",
   },
 };
 
