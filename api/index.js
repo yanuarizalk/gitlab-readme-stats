@@ -13,23 +13,26 @@ async function fetchStats(username) {
         query userInfo($username: String!) {
           user(username: $username) {
             name
-            authoredMergeRequests(first: 100) {
+            authoredMergeRequests {
+              count
+            }
+            assignedMergeRequests {
+              count
+            }
+            projectMemberships {
               nodes {
-                project {
-                  name
-                }
+                id
               }
             }
-            reviewRequestedMergeRequests(first: 100) {
+            groupMemberships {
               nodes {
-                project {
-                  id
-                }
+                id
               }
             }
-            status {
-              message
-              emoji
+            todos {
+              nodes {
+                id
+              }
             }
           }
         }
@@ -41,17 +44,25 @@ async function fetchStats(username) {
   });
 
   const stats = {
-    authoredMergeRequests: 0,
     name: "",
-    reviewRequestedMergeRequests: 0,
+    authoredMergeRequests: 0,
+    projectMemberships: 0,
+    groupMemeberships: 0,
+    assignedMergeRequests: 0,
+    todos: 0,
   };
+
   if (res.data.error) return stats;
 
   const user = res.data.data.user;
-  stats.authoredMergeRequests = user.authoredMergeRequests.nodes.length;
-  stats.reviewRequestedMergeRequests =
-    user.reviewRequestedMergeRequests.nodes.length;
+
   stats.name = user.name;
+  stats.totalMrs =
+    user.authoredMergeRequests.count + user.assignedMergeRequests.count;
+  stats.totalProjects = user.projectMemberships.nodes.length;
+  stats.totalGroups = user.groupMemberships.nodes.length;
+  stats.todos = user.todos.nodes.length;
+
   return stats;
 }
 
@@ -66,24 +77,22 @@ const createTextNode = (icon, label, value, lheight) => {
 };
 
 const renderSVG = (stats, options) => {
-  const {
-    name,
-    totalStars,
-    totalCommits,
-    totalIssues,
-    totalPRs,
-    contributedTo,
-  } = stats;
+  const { name, totalProjects, totalGroups, totalMrs, totalTodos } = stats;
   const { hide, show_icons, hide_border, line_height } = options || {};
 
   const lheight = line_height || 25;
 
   const STAT_MAP = {
-    stars: createTextNode("★", "Total Stars", totalStars, lheight),
-    commits: createTextNode("🕗", "Total Commits", totalCommits, lheight),
-    prs: createTextNode("🔀", "Total PRs", totalPRs, lheight),
-    issues: createTextNode("ⓘ", "Total Issues", totalIssues, lheight),
-    contribs: createTextNode("📕", "Contributed to", contributedTo, lheight),
+    projects: createTextNode("★", "Total Projects", totalProjects, lheight),
+    groups: createTextNode("🕗", "Total Groups", totalGroups, lheight),
+    mrs: createTextNode("🔀", "Total MRs ", totalMrs, lheight),
+    // assignedMrs: createTextNode(
+    //   "ⓘ",
+    //   "Total Assigned MRs",
+    //   totalAssignedMergeRequests,
+    //   lheight
+    // ),
+    todos: createTextNode("📕", "Todos", totalTodos, lheight),
   };
 
   const statItems = Object.keys(STAT_MAP)
@@ -109,7 +118,7 @@ const renderSVG = (stats, options) => {
         `<rect x="0.5" y="0.5" width="494" height="99%" rx="4.5" fill="#FFFEFE" stroke="#E4E2E2"/>`
       }
      
-      <text x="25" y="35" class="header">${name}'s GitHub Stats</text>
+      <text x="25" y="35" class="header">${name}'s GitLab Stats</text>
       <text y="45">
         ${statItems}
       </text>
