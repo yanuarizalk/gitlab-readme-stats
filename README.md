@@ -1,6 +1,6 @@
 # GitLab Readme stats
 
-Get dynamically generated github stats on your readmes!
+Get dynamically generated GitLab stats on your readmes!
 
 ## How to use
 
