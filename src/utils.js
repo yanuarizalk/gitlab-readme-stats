@@ -9,7 +9,7 @@ const renderError = (message) => {
     .small { font: 600 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: #252525 }
     </style>
     <rect x="0.5" y="0.5" width="494" height="99%" rx="4.5" fill="#FFFEFE" stroke="#E4E2E2"/>
-    <text x="25" y="45" class="text">Something went wrong! file an issue at https://git.io/JJmN9</text>
+    <text x="25" y="45" class="text">Something went wrong! file an issue at https://gitlab.com/oregand/gitlab-readme-stats/-/issues</text>
     <text id="message" x="25" y="65" class="text small">${message}</text>
     </svg>
   `;
