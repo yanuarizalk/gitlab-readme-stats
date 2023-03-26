@@ -17,6 +17,9 @@ module.exports = async (req, res) => {
     text_color,
     bg_color,
     theme,
+    remote_gitlab,
+    remote_username,
+    combine_remote_and_public,
   } = req.query;
   let stats;
 
@@ -24,7 +27,12 @@ module.exports = async (req, res) => {
   res.setHeader("Content-Type", "image/svg+xml");
 
   try {
-    stats = await fetchStats(username);
+    stats = await fetchStats({
+      username,
+      remote_gitlab,
+      combine_remote_and_public,
+      remote_username,
+    });
   } catch (err) {
     return res.send(renderError(err.message));
   }

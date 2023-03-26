@@ -49,8 +49,11 @@ function fallbackColor(color, fallbackColor) {
 }
 
 function request(data, headers) {
+  let requestUrl = "https://gitlab.com/api/graphql";
+  if (data.gitlab_url) requestUrl = data.gitlab_url;
+
   return axios({
-    url: "https://gitlab.com/api/graphql",
+    url: requestUrl,
     method: "post",
     headers,
     data,

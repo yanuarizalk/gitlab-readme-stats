@@ -12,6 +12,17 @@ const retryer = async (fetcher, variables, retries = 0) => {
       retries
     );
 
+    if (
+      response.data.errors &&
+      response.data.errors[0].message ===
+        "The resource that you are attempting to access does not exist or you don't have permission to perform this action"
+    ) {
+      console.log(`GITLAB_TOKEN_${retries + 1} Failed`);
+      retries++;
+      // directly return from the function
+      return retryer(fetcher, variables, retries);
+    }
+
     // prettier-ignore
     const isRateExceeded = response.data.errors && response.data.errors[0].type === "RATE_LIMITED";
 
@@ -29,7 +40,9 @@ const retryer = async (fetcher, variables, retries = 0) => {
   } catch (err) {
     // prettier-ignore
     // also checking for bad credentials if any tokens gets invalidated
-    const isBadCredential = err.response.data && err.response.data.message === "Bad credentials";
+    console.log(`${err}`)
+    const isBadCredential =
+      err.response.data && err.response.data.message === "Bad credentials";
 
     if (isBadCredential) {
       console.log(`GITLAB_TOKEN_${retries + 1} Failed`);
