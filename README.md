@@ -12,6 +12,8 @@ change the `?username=` value to your GitLab's username
 ![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand)
 ```
 
+If you notice an error using the example above, please see [how to deploy your own](##deploy-yourself).
+
 ## Hiding certain stats
 
 To hide any specific stats you can pass a query parameter `?hide=` with an array of items you wanna hide.
@@ -85,6 +87,29 @@ Customization Options:
 Choose from any of the [default themes](#themes)
 
 ![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&show_icons=true&theme=dark)
+
+## Deploy Yourself
+
+Currently https://gitlab-readme-stats.vercel.app is not deployed, and using the above will cause an error to be
+displayed. If you are interested in using gitlab-readme-stats for your profile, it may be useful to deploy an instance
+of the app to vercel.
+
+### Steps
+1.  Go to [vercel.com](https://vercel.com/).
+2.  Click on `Log in`.
+3.  Sign in with GitLab by pressing `Continue with GitLab`.
+4.  Sign in to GitLab and allow access to all repositories.
+5.  Fork the current repo.
+6.  Navigate to [Vercel dashboard](https://vercel.com/dashboard).
+7.  To import a project, click the `Add New...` button and select the `Project` option.
+8.  Click the `Continue with GitLab` button, and import your newly forked repo.
+9.  Create a gitlab token [here](https://gitlab.com/-/profile/personal_access_tokens) and add `read_api`,
+    `read_user`, `read_repository`.
+10. Add the token as an environment variable named `GITLAB_TOKEN_1`.
+11. Click deploy, and note the domain set by vercel so you can use it for your profile!
+
+After deploying your own instance of gitlab-readme-stats, you will now be able to use the above examples with your own
+vercel domain.
 
 ## GitLab GraphQL Explorer
 
