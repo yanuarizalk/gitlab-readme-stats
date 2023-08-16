@@ -51,7 +51,7 @@ Use `?theme=THEME_NAME` parameter like so :-
 
 You can customize the appearance of your `Stats Card` however you like with URL params.
 
-Customization Options:
+Card Customization Options:
 
 | Option      | type      | description                          | Stats Card |
 | ----------- | --------- | ------------------------------------ | ---------- |
@@ -65,6 +65,38 @@ Customization Options:
 | hide_border | boolean   | hides the stats card border          | false      |
 | show_icons  | boolean   | shows icons                          | false      |
 | theme       | string    | sets inbuilt theme                   | 'default'  |
+
+### Remote Data Sources
+
+As GitLab makes it easy to deploy your own instance of GitLab, there might be a desire to track your GitLab stats across
+more than just `gitlab.com`.
+
+GitLab readme stats has the capability to generate stats for a remote instance of GitLab. It currently requires you
+to deploy an instance of GitLab readme stats yourself to vercel as you will need to add your remote gitlab token to your
+vercel deployment.
+
+Follow the steps outlined in [how to deploy your own](##deploy-yourself) instance of GitLab readme stats for a general
+guide on how to deploy to vercel, but configure the environment variables so that `GITLAB_TOKEN_1` through
+`GITLAB_TOKEN_7` contain tokens generated from your remote GitLab instances. When the [retryer](src/retryer.js) fails to
+authenticate one token against a datasource, it will try the next numbered token in the environment.
+
+Data Source Parameter Options:
+| Option                    | Type    | Description                                                                                |
+| ------------------------- | ------- | ------------------------------------------------------------------------------------------ |
+| username                  | string  | username that maps to your `gitlab.com` account                                            |
+| remote_username           | string  | username that maps to your `$remote_gitlab` account                                        |
+| remote_gitlab             | string  | base url of your remote instance including `https://`                                      |
+| combine_remote_and_public | boolean | setting to true will combine your stats from your remote gitlab and public gitlab accounts |
+
+#### Putting It All Together
+
+To create a stats card for the user `shnaru` at the remote GitLab instance `gitlab.notreal.com` (with the gitlab token
+generated and added to your vercel instance) and combine it with `shnaru`'s public `gitlab.com` stats in one card, use
+the following parameters:
+
+```
+?username=shnaru&remote_username=shnaru&remote_gitlab=gitlab.notreal.com&combine_remote_and_public=true
+```
 
 ---
 
