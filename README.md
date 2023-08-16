@@ -104,21 +104,21 @@ the following parameters:
 
 - Default
 
-![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand)
+![Oregand's GitLab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand)
 
 - Hiding specific stats
 
-![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["mrs","projects","groups"])
+![Oregand's GitLab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["mrs","projects"])
 
 - Showing icons
 
-![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["projects"]&show_icons=true)
+![Oregand's gitGitLablab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["projects"]&show_icons=true)
 
 - Themes
 
 Choose from any of the [default themes](#themes)
 
-![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&show_icons=true&theme=dark)
+![Oregand's GitLab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&show_icons=true&theme=dark)
 
 ## Deploy Yourself
 
