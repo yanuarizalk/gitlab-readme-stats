@@ -108,7 +108,7 @@ the following parameters:
 
 - Hiding specific stats
 
-![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["mrs","projects"])
+![Oregand's gitlab stats](https://gitlab-readme-stats.vercel.app/api?username=oregand&hide=["mrs","projects","groups"])
 
 - Showing icons
 
