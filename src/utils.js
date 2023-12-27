@@ -60,6 +60,36 @@ function request(data, headers) {
   });
 }
 
+function requestCalendar(data, headers) {
+  let requestUrl = `https://gitlab.com`;
+  if (data.gitlab_url) requestUrl = data.gitlab_url;
+
+  if (requestUrl.startsWith("/"))  
+    requestUrl = `${requestUrl}api/v4/users/${data.variables.username}/events`;
+  else
+    requestUrl= `${requestUrl}/api/v4/users/${data.variables.username}/events`;
+
+  let params = new URLSearchParams({
+    per_page: 100,
+    page: data.page,
+    action: "commented, merged, approved, closed, pushed, created"
+  })
+
+  if (data.end) {
+    params.append("before", data.end)
+  }
+  if (data.start) {
+    params.append("after", data.start)
+  }
+
+  return axios({
+    url: requestUrl,
+    method: "get",
+    params,
+    headers,
+  });
+}
+
 /**
  *
  * @param {String[]} items
@@ -121,6 +151,7 @@ module.exports = {
   encodeHTML,
   isValidHexColor,
   request,
+  requestCalendar,
   parseBoolean,
   fallbackColor,
   FlexLayout,

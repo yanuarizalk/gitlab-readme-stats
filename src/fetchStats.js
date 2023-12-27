@@ -1,7 +1,49 @@
-const { request } = require("./utils");
+const { request, requestCalendar } = require("./utils");
+import { format } from 'date-fns/format';
 const retryer = require("./retryer");
 const calculateRank = require("./calculateRank");
 require("dotenv").config();
+
+const fetcherCalendar = async (variables, token) => {
+  let { username, remote_username, start, end } = variables;
+  // remote fetches only have remote_username set
+  if (remote_username && !username) {
+    username = remote_username;
+  }
+
+  let page = 1, iterate = true, allRes = {};
+
+  while (iterate) {
+    let res = await requestCalendar({
+      variables: { username, start, end },
+      gitlab_url: variables.remote_gitlab,
+      page
+    }, {
+      Authorization: `bearer ${token || process.env.GITLAB_TOKEN}`,
+    });
+
+    if (Object.keys(allRes).length === 0) {
+      allRes = res;
+    }
+
+    if (res.status == 200 && res.headers["content-type"] == "application/json") {
+      if (res.data.length == 0) {
+        iterate = false;
+        break;
+      }
+
+      if (page > 1) 
+        allRes.data = allRes.data.concat(res.data);
+    } else {
+      iterate = false;
+      console.log("requestCalendar response(%d): ", res.code, res.data)
+    }
+    
+    page++
+  }
+
+  return allRes;
+}
 
 const fetcher = (variables, token) => {
   let { username, remote_username } = variables;
@@ -48,6 +90,20 @@ const fetcher = (variables, token) => {
     }
   );
 };
+
+function parseUserEvents(data) {
+  let calendarJson = {};
+
+  for (const v of data) {
+    let key = format(new Date(v.created_at), 'yyyy-MM-dd');
+    if (calendarJson.hasOwnProperty(key))
+      calendarJson[key] += 1;
+    else
+      calendarJson[key] = 1;
+  }
+
+  return calendarJson;
+}
 
 async function getInstanceStats(res) {
   const user = res.data.data.user;
@@ -112,7 +168,7 @@ function validateUrlParameters(statsParameters) {
 }
 
 function normalizeUrlParameters(statsParameters) {
-  let { username, remote_gitlab, combine_remote_and_public, remote_username } =
+  let { username, remote_gitlab, combine_remote_and_public, remote_username, restful } =
     statsParameters;
 
   if (remote_gitlab) {
@@ -123,9 +179,9 @@ function normalizeUrlParameters(statsParameters) {
       !remote_gitlab.includes("http://") ||
       !remote_gitlab.includes("https://")
     )
-      remote_gitlab = `https://${remote_gitlab}`;
+    remote_gitlab = `https://${remote_gitlab}`;
 
-    if (!remote_gitlab.endsWith("/api/graphql"))
+    if (!remote_gitlab.endsWith("/api/graphql") && !restful)
       remote_gitlab = `${remote_gitlab}/api/graphql`;
   }
 
@@ -135,6 +191,81 @@ function normalizeUrlParameters(statsParameters) {
     combine_remote_and_public,
     remote_username,
   };
+}
+
+
+async function fetchContributionCalendar(statsParameters) {
+  validateUrlParameters(statsParameters);
+
+  statsParameters.restful = true;
+
+  const {
+    start, end
+  } = statsParameters;
+
+  const {
+    username,
+    remote_gitlab,
+    combine_remote_and_public,
+    remote_username
+  } = normalizeUrlParameters(statsParameters);
+
+  let remoteResponse;
+  let res;
+  let stats = {};
+  let remoteVariables = {
+    remote_username,
+    remote_gitlab,
+    combine_remote_and_public,
+    start, end
+  };
+
+  if (combine_remote_and_public) {
+    [res, remoteResponse] = await Promise.all([
+      retryer(fetcherCalendar, { username, start, end }),
+      retryer(fetcherCalendar, remoteVariables),
+    ]);
+  } else if (remote_gitlab) {
+    res = await retryer(fetcherCalendar, remoteVariables);
+  } else {
+    res = await retryer(fetcherCalendar, { username, start, end });
+  }
+
+  if (!(
+    res.headers["content-type"] && res.headers["content-type"].includes("application/json") &&
+    res.status == 200
+  )) {
+    throw Error("invalid response");
+  }
+
+  if (combine_remote_and_public) {
+    const [remoteStats, publicGitlabStats] = [
+      parseUserEvents(remoteResponse),
+      parseUserEvents(res),
+    ];
+
+    for (const key in remoteStats) {
+      if (remoteStats.hasOwnProperty(key))
+        stats[key] += remoteResponse[key];
+      else
+        stats[key] = remoteResponse[key];
+    }
+    for (const key in publicGitlabStats) {
+      if (publicGitlabStats.hasOwnProperty(key))
+        stats[key] += publicGitlabStats[key];
+      else
+        stats[key] = publicGitlabStats[key];
+    }
+  } else {
+    // non combined remote and public gitlab will route here    
+    stats = parseUserEvents(res.data);
+  }
+
+  if (JSON.stringify(stats) === "{}") {
+    throw Error(`Error generating stats`);
+  }
+
+  return stats;
 }
 
 async function fetchStats(statsParameters) {
@@ -224,4 +355,4 @@ async function fetchStats(statsParameters) {
   return stats;
 }
 
-module.exports = fetchStats;
+module.exports = {fetchStats, fetchContributionCalendar};

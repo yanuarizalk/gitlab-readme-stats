@@ -20,7 +20,9 @@
     "prettier": "2.4.1"
   },
   "dependencies": {
-    "dotenv": "^10.0.0"
+    "date-fns": "^3.0.6",
+    "dotenv": "^10.0.0",
+    "gitlab-calendar": "github:yanuarizalk/gitlab-calendar"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

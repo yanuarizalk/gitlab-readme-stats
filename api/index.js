@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { renderError, parseBoolean } = require("../src/utils");
-const fetchStats = require("../src/fetchStats");
+const { fetchStats } = require("../src/fetchStats");
 const renderStatsCard = require("../src/renderStatsCard");
 
 module.exports = async (req, res) => {
