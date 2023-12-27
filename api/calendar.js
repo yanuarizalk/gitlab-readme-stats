@@ -1,17 +1,22 @@
 require("dotenv").config();
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { document } = (new JSDOM(`<!DOCTYPE html><body></body>`, {})).window;
-
-global.document = document;
-global.self = document;
+const { JSDOM } = require("jsdom");
 
 // const { GitlabCalendar } = require("/home/onechance/Code/labs/gitlab-calendar/dist/index.js");
-const { GitlabCalendar } = require("gitlab-calendar");
 const { fetchContributionCalendar } = require("../src/fetchStats");
 const { renderError } = require("../src/utils");
 
 module.exports = async (req, res) => {
+  const { window } = new JSDOM(`<!DOCTYPE html><body></body>`, {});
+  const { document } = window;
+  global.document = document;
+  global.self = document;
+  const { GitlabCalendar } = require("gitlab-calendar");
+
+  setTimeout(() => {
+    document.documentElement.remove();
+    window.close();
+  }, 10000)
+
   const {
     username,
     remote_gitlab,
@@ -24,6 +29,7 @@ module.exports = async (req, res) => {
     first_dow, tooltip_date_format
   } = req.query;
 
+  res.setHeader("Cache-Control", "public, max-age=86400");
   res.setHeader("Content-Type", "image/svg+xml");
   let data;
 
